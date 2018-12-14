@@ -1,21 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import emoji from 'emoji-dictionary';
 
 import './Card.css';
 
-class Card extends Component {
-  render() {
-    return (
-      <div className="card">
-        Card
-      </div>
-    )
-  }
-}
+const InspirationCard = (props) => {
+  return (
+    <div className="card">
+      <section className="card__content">
+        <p className="card__content-text">{props.cardText}</p>
 
-Card.propTypes = {
+      {props.cardEmoji && (
+          <p className="card__content-emoji">
+            {emoji.getUnicode(props.cardEmoji)}
+           </p>)}
+          </section>
+        </div>
+      )
+    }
 
-};
 
-export default Card;
+    InspirationCard.propTypes = {
+      // cardText: PropTypes.string.isRequired,
+    };
+
+    export default InspirationCard;
