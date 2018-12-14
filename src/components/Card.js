@@ -10,10 +10,16 @@ const InspirationCard = (props) => {
       <section className="card__content">
         <p className="card__content-text">{props.cardText}</p>
 
-      {props.cardEmoji && (
+        {props.cardEmoji && (
           <p className="card__content-emoji">
             {emoji.getUnicode(props.cardEmoji)}
-           </p>)}
+          </p>)}
+
+          <button
+            onClick={() => props.deleteInspirationCardCallback(props.id)}
+            type="button"
+            className="card__delete"
+            > Delete </button>
           </section>
         </div>
       )
