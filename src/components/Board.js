@@ -26,7 +26,8 @@ class Board extends Component {
           key={index}
           cardText={card.cardText}
           cardEmoji={card.cardEmoji}
-          id={card.id}
+          cardId={card.cardId}
+          deleteCardCallback= {this.deleteCard}
           />
       })
     };
@@ -41,7 +42,7 @@ class Board extends Component {
         return {
           cardText: card.card.text,
           cardEmoji: card.card.emoji,
-          id: card.card.id
+          cardId: card.card.id
 
         }
       });
@@ -60,6 +61,25 @@ class Board extends Component {
 
     });
   }
+
+  deleteCard = (cardId) => {
+    console.log(cardId)
+    axios.delete(`https://inspiration-board.herokuapp.com/cards/${cardId}` )
+    console.log(`https://inspiration-board.herokuapp.com/cards/${cardId}`)
+  let deleteIndex = -1;
+  const cards = [...this.state.cards];
+  cards.forEach((card, index) => {
+    if (cardId === card.cardId) {
+      deleteIndex = index;
+    }
+  });
+
+  cards.splice(deleteIndex, 1);
+
+  this.setState({
+    cards: cards
+  })
+}
   render(){
     return (
       <div className="board">

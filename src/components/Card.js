@@ -16,7 +16,7 @@ const InspirationCard = (props) => {
           </p>)}
 
           <button
-            onClick={() => props.deleteInspirationCardCallback(props.id)}
+            onClick={() => props.deleteCardCallback(props.cardId)}
             type="button"
             className="card__delete"
             > Delete </button>
