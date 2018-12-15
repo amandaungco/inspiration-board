@@ -19,7 +19,7 @@ class Board extends Component {
   makeCards(){
 
     if (this.state.cards.length > 0) {
-        console.log(this.state.cards)
+      console.log(this.state.cards)
 
       return this.state.cards.map((card, index) => {
         return <Card
@@ -62,29 +62,69 @@ class Board extends Component {
     });
   }
 
+  addCard = (newCard) => {
+    console.log("adding new card")
+    const apiPayload = {
+      ...newCard,
+      text: newCard.cardText,
+      emoji: newCard.cardEmoji,
+    };
+    console.log(apiPayload)
+
+    axios.post(this.props.url + this.props.boardName +'/cards', apiPayload)
+    .then( (response) => {
+
+      const {card} = response.data;
+      const myNewCard = {};
+      myNewCard.cardText = card.text;
+      myNewCard.cardEmoji = card.emoji;
+      myNewCard.cardId = card.id
+      
+
+
+      const {cards} = this.state;
+
+      cards.push(myNewCard);
+
+
+      this.setState({
+        cards,
+        errorMessage: 'Card Added',
+      });
+    })
+
+  }
+
   deleteCard = (cardId) => {
     console.log(cardId)
     axios.delete(`https://inspiration-board.herokuapp.com/cards/${cardId}` )
     console.log(`https://inspiration-board.herokuapp.com/cards/${cardId}`)
-  let deleteIndex = -1;
-  const cards = [...this.state.cards];
-  cards.forEach((card, index) => {
-    if (cardId === card.cardId) {
-      deleteIndex = index;
-    }
-  });
+    let deleteIndex = -1;
+    const cards = [...this.state.cards];
+    cards.forEach((card, index) => {
+      if (cardId === card.cardId) {
+        deleteIndex = index;
+      }
+    });
 
-  cards.splice(deleteIndex, 1);
+    cards.splice(deleteIndex, 1);
 
-  this.setState({
-    cards: cards
-  })
-}
+    this.setState({
+      cards: cards
+    })
+  }
   render(){
     return (
-      <div className="board">
-        {this.makeCards()}
-      </div>
+      <main>
+        <div className="board">
+          {this.makeCards()}
+        </div>
+
+
+        <section>
+          <NewCardForm addCardCallback={this.addCard} />
+        </section>
+      </main>
     )
   }
 
